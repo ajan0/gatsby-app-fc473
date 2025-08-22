@@ -9,19 +9,19 @@ class Header extends React.Component {
             <nav className="flex items-center justify-self-end">
                 <ul className="flex gap-6">
                     <li>
-                        <a href="">Accueil</a>
+                        <a href={`${process.env.GATSBY_SITE_URL}/`}>Accueil</a>
                     </li>
                     <li>
-                        <a href="">A propos</a>
+                        <a href={`${process.env.GATSBY_SITE_URL}/#about`}>A propos</a>
                     </li>
                     <li>
-                        <a href="">Formation</a>
+                        <a href={`${process.env.GATSBY_SITE_URL}/#formation`}>Formation</a>
                     </li>
                     <li>
-                        <a href="">Admission</a>
+                        <a href={`${process.env.GATSBY_SITE_URL}/admission`}>Admission</a>
                     </li>
                     <li>
-                        <a href="">Contact</a>
+                        <a href={`${process.env.GATSBY_SITE_URL}/#contact`}>Contact</a>
                     </li>
                 </ul>
             </nav>
