@@ -3,14 +3,13 @@ import { useFormContext } from "react-hook-form"
 import countryList from 'react-select-country-list'
 import Select from "react-select"
 import { Input } from "./ui/input"
-import { DatePicker } from "./ui/date-picker"
 
 const StepOne: React.FC = () => {
   const { register } = useFormContext()
   const [value, setValue] = useState(null)
 
   // useMemo so the list isn't rebuilt on every render
-  const options = useMemo(() => countryList().getData({ language: "fr" }), [])
+  const options_country = useMemo(() => countryList().getData({ language: "fr" }), [])
 
   const changeHandler = (selected: any) => {
     setValue(selected)
@@ -31,19 +30,41 @@ const StepOne: React.FC = () => {
     "Accord pour vaccin saisonnier contre la grippe",
   ]
 
+  const options_urgency = [
+    "Entrée urgente",
+    "Entrée dans 1 mois",
+    "Entrée dans les 3 mois",
+    "Entrée dans les 6 mois",
+    "Être inscrit sur la liste d’attente",
+    "Autre",
+  ]
+
+  const options_relationship_status = [
+    "Marié(e)",
+    "Célibataire",
+    "Séparé(e)",
+    "Divorcé(e)",
+    "Veuf(ve)",
+  ]
+
+  const options_lifestyle = [
+    "Vivant seul",
+    "Conjoint vivant dans la même maison",
+    "Autre"
+  ]
+
+  const options_provenence = [
+    "Domicile",
+    "Hôpital",
+    "Autre"
+  ]
+
   return (
     <div className="space-y-6">
       <div>
         <label className="font-medium">Degré d’urgence <span className="text-red-500">(Required)</span></label>
         <div className="mt-2 space-y-2">
-          {[
-            "Entrée urgente",
-            "Entrée dans 1 mois",
-            "Entrée dans les 3 mois",
-            "Entrée dans les 6 mois",
-            "Être inscrit sur la liste d’attente",
-            "Autre",
-          ].map((label, idx) => (
+          {options_urgency.map((label, idx) => (
             <div key={idx}>
               <input type="radio" value={label} {...register("urgency")} className="mr-2" />
               <span>{label}</span>
@@ -147,7 +168,7 @@ const StepOne: React.FC = () => {
         <div>
           <label className="block">Origine</label>
           <Select
-            options={options}
+            options={options_country}
             value={value}
             onChange={changeHandler}
             placeholder="Choisir un pays..."
@@ -164,15 +185,9 @@ const StepOne: React.FC = () => {
         <div>
           <label className="block">Etat civil </label>
           <div className="mt-2 space-y-2">
-            {[
-              "Marié(e)",
-              "Célibataire",
-              "Séparé(e)",
-              "Divorcé(e)",
-              "Veuf(ve)",
-            ].map((label, idx) => (
+            {options_relationship_status.map((label, idx) => (
               <div key={idx}>
-                <input type="radio" value={label} {...register("urgency")} className="mr-2" />
+                <input type="radio" value={label} {...register("relationship_status")} className="mr-2" />
                 <span>{label}</span>
               </div>
             ))}
@@ -181,13 +196,9 @@ const StepOne: React.FC = () => {
         <div>
           <label className="block">Mode de vie</label>
           <div className="mt-2 space-y-2">
-              {[
-                "Vivant seul",
-                "Conjoint vivant dans la même maison",
-                "Autre"
-              ].map((label, idx) => (
+              {options_lifestyle.map((label, idx) => (
                 <div key={idx} className="flex items-center">
-                  <input type="radio" value={label} {...register("urgency")} className="mr-2" />
+                  <input type="radio" value={label} {...register("lifestyle")} className="mr-2" />
                   <span>{label}</span>
                   {idx == 2 ? <Input className="ms-2" {...register("lifestyle_other")} /> : ""}
                 </div>
@@ -205,13 +216,9 @@ const StepOne: React.FC = () => {
       {/* Provenance & Chambre */}
       <div className="grid grid-cols-2 gap-4">
         <div>
-          <label className="block">Etat civil </label>
+          <label className="block">Provenance</label>
           <div className="mt-2 space-y-2">
-            {[
-              "Domicile",
-              "Hôpital",
-              "Autre"
-            ].map((label, idx) => (
+            {options_provenence.map((label, idx) => (
               <div key={idx} className="flex items-center">
                 <input type="radio" value={label} {...register("urgency")} className="mr-2" />
                 <span>{label}</span>
