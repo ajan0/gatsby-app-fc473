@@ -1,8 +1,35 @@
-import React from "react"
+import React, { useMemo, useState } from "react"
 import { useFormContext } from "react-hook-form"
+import countryList from 'react-select-country-list'
+import Select from "react-select"
+import { Input } from "./ui/input"
+import { DatePicker } from "./ui/date-picker"
 
 const StepOne: React.FC = () => {
   const { register } = useFormContext()
+  const [value, setValue] = useState(null)
+
+  // useMemo so the list isn't rebuilt on every render
+  const options = useMemo(() => countryList().getData({ language: "fr" }), [])
+
+  const changeHandler = (selected: any) => {
+    setValue(selected)
+  }
+
+  const options_room = [
+    "1 lit",
+    "2 lits",
+    "TV",
+    "Téléphone",
+    "RC",
+    "Matériel de toilette",
+    "Coiffeur",
+    "Dentiste",
+    "Hygiéniste dentaire",
+    "Pédicure prescription médicale",
+    "Argent poche",
+    "Accord pour vaccin saisonnier contre la grippe",
+  ]
 
   return (
     <div className="space-y-6">
@@ -15,7 +42,7 @@ const StepOne: React.FC = () => {
             "Entrée dans les 3 mois",
             "Entrée dans les 6 mois",
             "Être inscrit sur la liste d’attente",
-            "Other",
+            "Autre",
           ].map((label, idx) => (
             <div key={idx}>
               <input type="radio" value={label} {...register("urgency")} className="mr-2" />
@@ -28,19 +55,11 @@ const StepOne: React.FC = () => {
       <div className="grid grid-cols-2 gap-4">
         <div>
           <label className="block">Prénom</label>
-          <input
-            type="text"
-            {...register("prenom", { required: true })}
-            className="w-full border rounded px-3 py-2"
-          />
+          <Input {...register("firstname", { required: true })}/>
         </div>
         <div>
           <label className="block">Nom</label>
-          <input
-            type="text"
-            {...register("nom", { required: true })}
-            className="w-full border rounded px-3 py-2"
-          />
+          <Input {...register("lastname", { required: true })}/>
         </div>
       </div>
 
@@ -56,30 +75,18 @@ const StepOne: React.FC = () => {
       {/* Adresse */}
       <div>
         <label className="block">Adresse</label>
-        <input
-          type="text"
-          {...register("adresse", { required: true })}
-          className="w-full border rounded px-3 py-2"
-        />
+        <Input {...register("adresse", { required: true })}/>
       </div>
 
       {/* NPA et Lieu */}
       <div className="grid grid-cols-2 gap-4">
         <div>
           <label className="block">NPA</label>
-          <input
-            type="number"
-            {...register("zipcode", { required: true })}
-            className="w-full border rounded px-3 py-2"
-          />
+          <Input type="number" {...register("zipcode", { required: true })}/>
         </div>
         <div>
           <label className="block">Lieu</label>
-          <input
-            type="text"
-            {...register("city", { required: true })}
-            className="w-full border rounded px-3 py-2"
-          />
+          <Input {...register("city", { required: true })}/>
         </div>
       </div>
 
@@ -87,11 +94,7 @@ const StepOne: React.FC = () => {
       <div className="grid grid-cols-2 gap-4">
         <div>
           <label className="block">Commune de domicile</label>
-          <input
-            type="number"
-            {...register("municapility", { required: true })}
-            className="w-full border rounded px-3 py-2"
-          />
+          <Input {...register("municapility", { required: true })}/>
         </div>
         <div>
           <label className="block">Depuis le</label>
@@ -106,63 +109,134 @@ const StepOne: React.FC = () => {
       {/* No. de téléphone */}
       <div>
         <label className="block">No. de téléphone</label>
-        <input
-          type="text"
-          {...register("telephone", { required: true })}
-          className="w-full border rounded px-3 py-2"
-        />
+        <Input {...register("telephone", { required: true })}/>
       </div>
 
       {/* No. AVS */}
       <div>
         <label className="block">No. AVS</label>
-        <input
-          type="text"
-          {...register("avs_number", { required: true })}
-          className="w-full border rounded px-3 py-2"
-        />
+        <Input {...register("avs_number", { required: true })}/>
       </div>
 
       {/* Nom / prénom du conjoint */}
       <div>
         <label className="block">Nom / prénom du conjoint</label>
-        <input
-          type="text"
-          {...register("partner_details", { required: true })}
-          className="w-full border rounded px-3 py-2"
-        />
+        <Input {...register("partner_details", { required: true })}/>
       </div>
 
       {/* Noms / prénoms du père et de la mère */}
       <div>
         <label className="block">Noms / prénoms du père et de la mère</label>
-        <input
-          type="text"
-          {...register("parent_details", { required: true })}
-          className="w-full border rounded px-3 py-2"
-        />
+        <Input {...register("parent_details", { required: true })}/>
       </div>
 
       {/* Lieu de naissance & Confession */}
       <div className="grid grid-cols-2 gap-4">
         <div>
           <label className="block">Lieu de naissance</label>
-          <input
-            type="number"
-            {...register("birthplace", { required: true })}
-            className="w-full border rounded px-3 py-2"
-          />
+          <Input {...register("birthplace", { required: true })}/>
         </div>
         <div>
           <label className="block">Confession</label>
-          <input
-            type="date"
-            {...register("religion", { required: true })}
-            className="w-full border rounded px-3 py-2"
-          />
+          <Input {...register("religion", { required: true })}/>
         </div>
       </div>
 
+      {/* Origine & Nationalite */}
+      <div className="grid grid-cols-2 gap-4">
+        <div>
+          <label className="block">Origine</label>
+          <Select
+            options={options}
+            value={value}
+            onChange={changeHandler}
+            placeholder="Choisir un pays..."
+          />
+        </div>
+        <div>
+          <label className="block">Nationalité</label>
+          <Input {...register("nationality", { required: true })}/>
+        </div>
+      </div>
+      
+      {/* Mode de vie */}
+      <div className="grid grid-cols-2 gap-4">
+        <div>
+          <label className="block">Etat civil </label>
+          <div className="mt-2 space-y-2">
+            {[
+              "Marié(e)",
+              "Célibataire",
+              "Séparé(e)",
+              "Divorcé(e)",
+              "Veuf(ve)",
+            ].map((label, idx) => (
+              <div key={idx}>
+                <input type="radio" value={label} {...register("urgency")} className="mr-2" />
+                <span>{label}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+        <div>
+          <label className="block">Mode de vie</label>
+          <div className="mt-2 space-y-2">
+              {[
+                "Vivant seul",
+                "Conjoint vivant dans la même maison",
+                "Autre"
+              ].map((label, idx) => (
+                <div key={idx} className="flex items-center">
+                  <input type="radio" value={label} {...register("urgency")} className="mr-2" />
+                  <span>{label}</span>
+                  {idx == 2 ? <Input className="ms-2" {...register("lifestyle_other")} /> : ""}
+                </div>
+              ))}
+            </div>
+        </div>
+      </div>    
+
+      {/* Ancienne profession */}
+      <div>
+        <label className="block">Ancienne profession</label>
+        <Input {...register("oldjob", { required: true })}/>
+      </div>
+
+      {/* Provenance & Chambre */}
+      <div className="grid grid-cols-2 gap-4">
+        <div>
+          <label className="block">Etat civil </label>
+          <div className="mt-2 space-y-2">
+            {[
+              "Domicile",
+              "Hôpital",
+              "Autre"
+            ].map((label, idx) => (
+              <div key={idx} className="flex items-center">
+                <input type="radio" value={label} {...register("urgency")} className="mr-2" />
+                <span>{label}</span>
+                  {idx == 2 ? <Input className="ms-2" {...register("lifestyle_other")} /> : ""}
+              </div>
+            ))}
+          </div>
+        </div>
+        <div>
+          <label className="block">Mode de vie</label>
+          <div className="mt-2 space-y-2">
+              {options_room.map((option, idx) => (
+                <div key={idx} className="flex items-center">
+                  <input
+                    type="checkbox"
+                    id={`chambre-${idx}`}
+                    value={option}
+                    className="mr-2"
+                  />
+                  <label htmlFor={`chambre-${idx}`}>{option}</label>
+                </div>
+              ))}
+            </div>
+        </div>
+      </div>    
     </div>
   )
 }
