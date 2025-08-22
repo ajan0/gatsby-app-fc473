@@ -3,6 +3,8 @@ import { useForm, FormProvider } from "react-hook-form"
 import StepOne from "./StepOne"
 import StepTwo from "./StepTwo"
 import StepThree from "./StepThree"
+import { Button } from "./ui/button"
+import StepFour from "./StepFour"
 
 const steps = ["VOS DONNÉES", "REPRÉSENTANT", "DÉTAILS ADDITIONNELS", "DOCUMENTS"]
 
@@ -17,6 +19,7 @@ const AdmissionForm: React.FC = () => {
         const isStepValid = await methods.trigger(); // validate all registered fields
         if (isStepValid) {
             setCurrentStep((prev) => Math.min(prev + 1, steps.length - 1))
+            window.scrollTo({ top: 0, behavior: "smooth" })
         }
     }
     const prevStep = () => setCurrentStep((prev) => Math.max(prev - 1, 0))
@@ -54,33 +57,17 @@ const AdmissionForm: React.FC = () => {
                     {currentStep === 0 && <StepOne />}
                     {currentStep === 1 && <StepTwo />}
                     {currentStep === 2 && <StepThree />}
+                    {currentStep === 3 && <StepFour />}
 
                     {/* Navigation */}
                     <div className="mt-6 flex justify-between">
                         {currentStep > 0 && (
-                            <button
-                                type="button"
-                                onClick={prevStep}
-                                className="px-4 py-2 bg-gray-300 rounded"
-                            >
-                                Retourner
-                            </button>
+                            <Button type="button" onClick={prevStep}>Retourner</Button>
                         )}
                         {currentStep < steps.length - 1 ? (
-                            <button
-                                type="button"
-                                onClick={nextStep}
-                                className="ml-auto px-4 py-2 bg-blue-600 text-white rounded"
-                            >
-                                Suivant
-                            </button>
+                            <Button type="button" onClick={nextStep} className="ml-auto">Suivant</Button>
                         ) : (
-                            <button
-                                type="submit"
-                                className="ml-auto px-4 py-2 bg-green-600 text-white rounded"
-                            >
-                                Envoyer
-                            </button>
+                            <Button type="submit" className="ml-auto">Envoyer</Button>
                         )}
                     </div>
                 </form>

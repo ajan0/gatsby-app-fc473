@@ -1,35 +1,15 @@
-import React, { useMemo, useState } from "react"
+import React from "react"
 import { useFormContext } from "react-hook-form"
-import countryList from 'react-select-country-list'
-import Select from "react-select"
-import { Input } from "./ui/input"
+import { FormField } from "./FormField"
 
 const StepTwo: React.FC = () => {
   const { register, watch } = useFormContext()
-  const [value, setValue] = useState(null)
-
-  // useMemo so the list isn't rebuilt on every render
-  const options_country = useMemo(() => countryList().getData({ language: "fr" }), [])
-
-  const changeHandler = (selected: any) => {
-    setValue(selected)
-  }
 
   const otherContact = watch("other_contact")
 
-  const options_yesno = ['Oui', 'Non']
-
-  const options_representative = [
-    "administratif",
-    "et/ou thérapeutique",
-  ]
-
-  const options_relationship = [
-    "Epoux(se)",
-    "Fils (fille)",
-    "Représ.légal",
-    "Autre"
-  ]
+  const options_yesno = ["Oui", "Non"]
+  const options_representative = ["administratif", "et/ou thérapeutique"]
+  const options_relationship = ["Epoux(se)", "Fils (fille)", "Représ.légal", "Autre"]
 
   return (
     <div className="space-y-6">
@@ -46,51 +26,24 @@ const StepTwo: React.FC = () => {
       </div>
 
       <div className="grid grid-cols-2 gap-4">
-        <div>
-          <label className="block">Prénom</label>
-          <Input {...register("firstname", { required: true })} />
-        </div>
-        <div>
-          <label className="block">Nom</label>
-          <Input {...register("lastname", { required: true })} />
-        </div>
+        <FormField name="rep_firstname" label="Prénom" required />
+        <FormField name="rep_lastname" label="Nom" required />
       </div>
 
       <div className="grid grid-cols-3 gap-4">
-        <div>
-          <label className="block">Adresse</label>
-          <Input {...register("rep_address", { required: true })} />
-        </div>
-        <div>
-          <label className="block">NPA</label>
-          <Input type="number" {...register("rep_zipcode", { required: true })} />
-        </div>
-        <div>
-          <label className="block">Lieu</label>
-          <Input {...register("rep_city", { required: true })} />
-        </div>
+        <FormField name="rep_address" label="Adresse" required />
+        <FormField name="rep_zipcode" label="NPA" type="number" required />
+        <FormField name="rep_city" label="Lieu" required />
       </div>
 
       <div className="grid grid-cols-2 gap-4">
-        <div>
-          <label className="block">Téléphone privé</label>
-          <Input {...register("rep_telephone_private", { required: true })} />
-        </div>
-        <div>
-          <label className="block">Téléphone prof.</label>
-          <Input {...register("rep_telephone_prof", { required: true })} />
-        </div>
+        <FormField name="rep_telephone_private" label="Téléphone privé" required />
+        <FormField name="rep_telephone_prof" label="Téléphone prof." required />
       </div>
 
       <div className="grid grid-cols-2 gap-4">
-        <div>
-          <label className="block">Téléphone mobile</label>
-          <Input {...register("rep_telephone_mobile", { required: true })} />
-        </div>
-        <div>
-          <label className="block">E-mail</label>
-          <Input {...register("rep_email", { required: true })} />
-        </div>
+        <FormField name="rep_telephone_mobile" label="Téléphone mobile" required />
+        <FormField name="rep_email" label="E-mail" required />
       </div>
 
       {/* Lien de parenté */}
@@ -101,7 +54,9 @@ const StepTwo: React.FC = () => {
             <div key={idx} className="flex items-center">
               <input type="radio" value={label} {...register("rep_relationship")} className="mr-2" />
               <span>{label}</span>
-              {idx == 2 ? <Input className="ms-2" {...register("lifestyle_other")} /> : ""}
+              {idx === 2 ? (
+                <FormField name="lifestyle_other" label="" />
+              ) : null}
             </div>
           ))}
         </div>
@@ -133,7 +88,7 @@ const StepTwo: React.FC = () => {
         </div>
       </div>
 
-      {/* Conditional to "Autres contacts"  */}
+      {/* Conditional to "Autres contacts" */}
       {otherContact === "Oui" && (
         <div className="space-y-4 p-4 border rounded bg-gray-50">
           <div>
@@ -141,7 +96,12 @@ const StepTwo: React.FC = () => {
             <div className="mt-2 space-y-2">
               {options_representative.map((label, idx) => (
                 <div key={idx}>
-                  <input type="radio" value={label} {...register("other_rep_representative")} className="mr-2" />
+                  <input
+                    type="radio"
+                    value={label}
+                    {...register("other_rep_representative")}
+                    className="mr-2"
+                  />
                   <span>{label}</span>
                 </div>
               ))}
@@ -149,51 +109,24 @@ const StepTwo: React.FC = () => {
           </div>
 
           <div className="grid grid-cols-2 gap-4">
-            <div>
-              <label className="block">Prénom</label>
-              <Input {...register("other_rep_firstname", { required: true })} />
-            </div>
-            <div>
-              <label className="block">Nom</label>
-              <Input {...register("other_rep_lastname", { required: true })} />
-            </div>
+            <FormField name="other_rep_firstname" label="Prénom" required />
+            <FormField name="other_rep_lastname" label="Nom" required />
           </div>
 
           <div className="grid grid-cols-3 gap-4">
-            <div>
-              <label className="block">Adresse</label>
-              <Input {...register("other_rep_address", { required: true })} />
-            </div>
-            <div>
-              <label className="block">NPA</label>
-              <Input type="number" {...register("other_rep_zipcode", { required: true })} />
-            </div>
-            <div>
-              <label className="block">Lieu</label>
-              <Input {...register("other_rep_city", { required: true })} />
-            </div>
+            <FormField name="other_rep_address" label="Adresse" required />
+            <FormField name="other_rep_zipcode" label="NPA" type="number" required />
+            <FormField name="other_rep_city" label="Lieu" required />
           </div>
 
           <div className="grid grid-cols-2 gap-4">
-            <div>
-              <label className="block">Téléphone privé</label>
-              <Input {...register("other_rep_telephone_private", { required: true })} />
-            </div>
-            <div>
-              <label className="block">Téléphone prof.</label>
-              <Input {...register("other_rep_telephone_prof", { required: true })} />
-            </div>
+            <FormField name="other_rep_telephone_private" label="Téléphone privé" required />
+            <FormField name="other_rep_telephone_prof" label="Téléphone prof." required />
           </div>
 
           <div className="grid grid-cols-2 gap-4">
-            <div>
-              <label className="block">Téléphone mobile</label>
-              <Input {...register("other_rep_telephone_mobile", { required: true })} />
-            </div>
-            <div>
-              <label className="block">E-mail</label>
-              <Input {...register("other_rep_email", { required: true })} />
-            </div>
+            <FormField name="other_rep_telephone_mobile" label="Téléphone mobile" required />
+            <FormField name="other_rep_email" label="E-mail" required />
           </div>
 
           {/* Lien de parenté */}
@@ -202,9 +135,16 @@ const StepTwo: React.FC = () => {
             <div className="mt-2 space-y-2">
               {options_relationship.map((label, idx) => (
                 <div key={idx} className="flex items-center">
-                  <input type="radio" value={label} {...register("other_rep_relationship")} className="mr-2" />
+                  <input
+                    type="radio"
+                    value={label}
+                    {...register("other_rep_relationship")}
+                    className="mr-2"
+                  />
                   <span>{label}</span>
-                  {idx == 2 ? <Input className="ms-2" {...register("other_rep_relationship_other")} /> : ""}
+                  {idx === 2 ? (
+                    <FormField name="other_rep_relationship_other" label="" />
+                  ) : null}
                 </div>
               ))}
             </div>
@@ -216,7 +156,12 @@ const StepTwo: React.FC = () => {
             <div className="mt-2 space-y-2">
               {options_yesno.map((label, idx) => (
                 <div key={idx}>
-                  <input type="radio" value={label} {...register("other_rep_adressage_admin")} className="mr-2" />
+                  <input
+                    type="radio"
+                    value={label}
+                    {...register("other_rep_adressage_admin")}
+                    className="mr-2"
+                  />
                   <span>{label}</span>
                 </div>
               ))}

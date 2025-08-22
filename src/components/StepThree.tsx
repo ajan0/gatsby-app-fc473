@@ -1,145 +1,80 @@
 import React from "react"
 import { useFormContext, useFieldArray } from "react-hook-form"
 import { Input } from "./ui/input"
+import { FormField } from "./FormField"
 
 const StepThree: React.FC = () => {
     const { register, control, watch } = useFormContext()
     const { fields, append, remove } = useFieldArray({
         control,
-        name: "incomes" // form field name for the array
+        name: "incomes", // form field name for the array
     })
 
     const hasIncomes = watch("has_incomes") // Oui/Non radio
-
-    const options_yesno = ['Oui', 'Non']
+    const options_yesno = ["Oui", "Non"]
 
     return (
         <div className="space-y-6">
             <div className="grid grid-cols-2 gap-4">
-                <div>
-                    <label className="block">Caisse Maladie</label>
-                    <Input {...register("insurance", { required: true })} />
-                </div>
-                <div>
-                    <label className="block">N° d’assuré</label>
-                    <Input {...register("insured_num", { required: true })} />
-                </div>
+                <FormField name="insurance" label="Caisse Maladie" required />
+                <FormField name="insured_num" label="N° d’assuré" required />
             </div>
 
             {/* Adresse complète */}
-            <div>
-                <label className="block">Adresse complète</label>
-                <Input {...register("insurance_address", { required: true })} />
-            </div>
+            <FormField name="insurance_address" label="Adresse complète" required />
 
             {/* Assurance complémentaire & N° d’assuré */}
             <div className="grid grid-cols-2 gap-4">
-                <div>
-                    <label className="block">Assurance complémentaire</label>
-                    <Input {...register("insurance_compl", { required: true })} />
-                </div>
-                <div>
-                    <label className="block">N° d’assuré</label>
-                    <Input {...register("insured_comp_num", { required: true })} />
-                </div>
+                <FormField name="insurance_compl" label="Assurance complémentaire" required />
+                <FormField name="insured_comp_num" label="N° d’assuré" required />
             </div>
 
             {/* Adresse complète */}
-            <div>
-                <label className="block">Adresse complète</label>
-                <Input {...register("insurance_comp_address", { required: true })} />
-            </div>
+            <FormField name="insurance_comp_address" label="Adresse complète" required />
 
             {/* Assurance Accident & N° d’assuré */}
             <div className="grid grid-cols-2 gap-4">
-                <div>
-                    <label className="block">Assurance Accident</label>
-                    <Input {...register("insurance_acc", { required: true })} />
-                </div>
-                <div>
-                    <label className="block">N° d’assuré</label>
-                    <Input {...register("insured_acc_num", { required: true })} />
-                </div>
+                <FormField name="insurance_acc" label="Assurance Accident" required />
+                <FormField name="insured_acc_num" label="N° d’assuré" required />
             </div>
 
             {/* Adresse complète */}
-            <div>
-                <label className="block">Adresse complète</label>
-                <Input {...register("insurance_acc_address", { required: true })} />
-            </div>
+            <FormField name="insurance_acc_address" label="Adresse complète" required />
 
             {/* Assurance RC */}
-            <div>
-                <label className="block">Assurance RC</label>
-                <Input {...register("insurance_rc", { required: true })} />
-            </div>
+            <FormField name="insurance_rc" label="Assurance RC" required />
 
             <h2 className="text-3xl">Médecin traitant</h2>
-            <p className="border-b-1 pb-2">(Le résidant peut faire appel à son médecin traitant si celui-ci se déplace à l’EMS du résidant)</p>
+            <p className="border-b-1 pb-2">
+                (Le résidant peut faire appel à son médecin traitant si celui-ci se déplace à l’EMS du résidant)
+            </p>
 
             <div className="grid grid-cols-2 gap-4">
-                <div>
-                    <label className="block">Nom</label>
-                    <Input {...register("doctor_lastname", { required: true })} />
-                </div>
-                <div>
-                    <label className="block">Prénom</label>
-                    <Input {...register("doctor_firstname", { required: true })} />
-                </div>
+                <FormField name="doctor_lastname" label="Nom" required />
+                <FormField name="doctor_firstname" label="Prénom" required />
             </div>
 
             <div className="grid grid-cols-3 gap-4">
-                <div>
-                    <label className="block">Adresse</label>
-                    <Input {...register("doctor_address", { required: true })} />
-                </div>
-                <div>
-                    <label className="block">NPA</label>
-                    <Input type="number" {...register("doctor_zipcode", { required: true })} />
-                </div>
-                <div>
-                    <label className="block">Lieu</label>
-                    <Input {...register("doctor_city", { required: true })} />
-                </div>
+                <FormField name="doctor_address" label="Adresse" required />
+                <FormField name="doctor_zipcode" label="NPA" type="number" required />
+                <FormField name="doctor_city" label="Lieu" required />
             </div>
 
-            <div>
-                <label className="block">Téléphone</label>
-                <Input {...register("doctor_phone", { required: true })} />
-            </div>
-
+            <FormField name="doctor_phone" label="Téléphone" required />
 
             <h2 className="text-3xl border-b-1">Pharmacie</h2>
 
-            <div>
-                <label className="block">Nom de la pharmacie</label>
-                <Input {...register("pharmacy", { required: true })} />
-            </div>
+            <FormField name="pharmacy" label="Nom de la pharmacie" required />
 
             <div className="grid grid-cols-3 gap-4">
-                <div>
-                    <label className="block">Adresse</label>
-                    <Input {...register("pharmacy_address", { required: true })} />
-                </div>
-                <div>
-                    <label className="block">NPA</label>
-                    <Input type="number" {...register("pharmacy_zipcode", { required: true })} />
-                </div>
-                <div>
-                    <label className="block">Lieu</label>
-                    <Input {...register("pharmacy_city", { required: true })} />
-                </div>
+                <FormField name="pharmacy_address" label="Adresse" required />
+                <FormField name="pharmacy_zipcode" label="NPA" type="number" required />
+                <FormField name="pharmacy_city" label="Lieu" required />
             </div>
 
-            <div>
-                <label className="block">No. de téléphone</label>
-                <Input {...register("pharmacy_phone", { required: true })} />
-            </div>
+            <FormField name="pharmacy_phone" label="No. de téléphone" required />
 
-            <div>
-                <label className="block">Montant de votre rente AVS</label>
-                <Input {...register("rente_amount", { required: true })} />
-            </div>
+            <FormField name="rente_amount" label="Montant de votre rente AVS" required />
 
             <div>
                 <label className="font-medium">Recevez-vous des Prestations Complémentaires AVS ?</label>
@@ -156,7 +91,7 @@ const StepThree: React.FC = () => {
             <div>
                 <label className="font-medium">Recevez-vous une Rente d'Impotence ?</label>
                 <div className="mt-2 space-y-2">
-                    {[...options_yesno, 'Demande en cours'].map((label, idx) => (
+                    {[...options_yesno, "Demande en cours"].map((label, idx) => (
                         <div key={idx}>
                             <input type="radio" value={label} {...register("rente_impotence")} className="mr-2" />
                             <span>{label}</span>
@@ -190,15 +125,14 @@ const StepThree: React.FC = () => {
                         <div key={field.id} className="grid grid-cols-2 gap-4 items-center mb-2">
                             <Input
                                 placeholder="Nom"
-                                {...register(`revenus.${index}.nom`, { required: true })}
+                                {...register(`incomes.${index}.nom`, { required: true })}
                             />
                             <div className="flex items-center gap-2">
                                 <Input
                                     type="number"
                                     placeholder="Montant"
-                                    {...register(`revenus.${index}.montant`, { required: true })}
+                                    {...register(`incomes.${index}.montant`, { required: true })}
                                 />
-                                {/* Add / Remove buttons */}
                                 <button
                                     type="button"
                                     onClick={() => append({ nom: "", montant: "" })}
@@ -217,7 +151,6 @@ const StepThree: React.FC = () => {
                         </div>
                     ))}
 
-                    {/* Always have at least one row */}
                     {fields.length === 0 && (
                         <button
                             type="button"
@@ -229,7 +162,6 @@ const StepThree: React.FC = () => {
                     )}
                 </div>
             )}
-
         </div>
     )
 }
