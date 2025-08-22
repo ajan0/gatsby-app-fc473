@@ -2,14 +2,23 @@ import React, { useState } from "react"
 import { useForm, FormProvider } from "react-hook-form"
 import StepOne from "./StepOne"
 import StepTwo from "./StepTwo"
+import StepThree from "./StepThree"
 
 const steps = ["VOS DONNÉES", "REPRÉSENTANT", "DÉTAILS ADDITIONNELS", "DOCUMENTS"]
 
 const AdmissionForm: React.FC = () => {
-    const methods = useForm()
+    const methods = useForm({
+        mode: "onBlur",  // validate only after leaving the input
+        reValidateMode: "onChange" // revalidate after changes
+    })
     const [currentStep, setCurrentStep] = useState(0)
 
-    const nextStep = () => setCurrentStep((prev) => Math.min(prev + 1, steps.length - 1))
+    const nextStep = async () => {
+        const isStepValid = await methods.trigger(); // validate all registered fields
+        if (isStepValid) {
+            setCurrentStep((prev) => Math.min(prev + 1, steps.length - 1))
+        }
+    }
     const prevStep = () => setCurrentStep((prev) => Math.max(prev - 1, 0))
 
     const onSubmit = (data: any) => {
@@ -44,6 +53,7 @@ const AdmissionForm: React.FC = () => {
                 <form onSubmit={methods.handleSubmit(onSubmit)}>
                     {currentStep === 0 && <StepOne />}
                     {currentStep === 1 && <StepTwo />}
+                    {currentStep === 2 && <StepThree />}
 
                     {/* Navigation */}
                     <div className="mt-6 flex justify-between">

@@ -3,9 +3,11 @@ import { useFormContext } from "react-hook-form"
 import countryList from 'react-select-country-list'
 import Select from "react-select"
 import { Input } from "./ui/input"
+import { FormField } from "./FormField"
+import { RadioGroupField } from "./RadioGroupField"
 
 const StepOne: React.FC = () => {
-  const { register } = useFormContext()
+  const { register, formState: { errors } } = useFormContext()
   const [value, setValue] = useState(null)
 
   // useMemo so the list isn't rebuilt on every render
@@ -62,26 +64,17 @@ const StepOne: React.FC = () => {
   return (
     <div className="space-y-6">
       <div>
-        <label className="font-medium">Degré d’urgence <span className="text-red-500">(Required)</span></label>
-        <div className="mt-2 space-y-2">
-          {options_urgency.map((label, idx) => (
-            <div key={idx}>
-              <input type="radio" value={label} {...register("urgency")} className="mr-2" />
-              <span>{label}</span>
-            </div>
-          ))}
-        </div>
+        <RadioGroupField
+          name="urgency"
+          label="Degré d’urgence"
+          options={options_urgency}
+          required
+        />
       </div>
 
       <div className="grid grid-cols-2 gap-4">
-        <div>
-          <label className="block">Prénom</label>
-          <Input {...register("firstname", { required: true })}/>
-        </div>
-        <div>
-          <label className="block">Nom</label>
-          <Input {...register("lastname", { required: true })}/>
-        </div>
+        <FormField name="firstname" label="Prénom" required />
+        <FormField name="lastname" label="Nom" required />
       </div>
 
       <div>
@@ -94,29 +87,17 @@ const StepOne: React.FC = () => {
       </div>
 
       {/* Adresse */}
-      <div>
-        <label className="block">Adresse</label>
-        <Input {...register("adresse", { required: true })}/>
-      </div>
+      <FormField name="address" label="Adresse" required />
 
       {/* NPA et Lieu */}
       <div className="grid grid-cols-2 gap-4">
-        <div>
-          <label className="block">NPA</label>
-          <Input type="number" {...register("zipcode", { required: true })}/>
-        </div>
-        <div>
-          <label className="block">Lieu</label>
-          <Input {...register("city", { required: true })}/>
-        </div>
+        <FormField name="zipcode" label="NPA" type="number" required />
+        <FormField name="city" label="Lieu" required />
       </div>
 
       {/* Commune de domicile & Depuis le */}
       <div className="grid grid-cols-2 gap-4">
-        <div>
-          <label className="block">Commune de domicile</label>
-          <Input {...register("municapility", { required: true })}/>
-        </div>
+        <FormField name="municapility" label="Commune de domicile" required />
         <div>
           <label className="block">Depuis le</label>
           <input
@@ -128,39 +109,21 @@ const StepOne: React.FC = () => {
       </div>
 
       {/* No. de téléphone */}
-      <div>
-        <label className="block">No. de téléphone</label>
-        <Input {...register("telephone", { required: true })}/>
-      </div>
+      <FormField name="telephone" label="No. de téléphone" required />
 
       {/* No. AVS */}
-      <div>
-        <label className="block">No. AVS</label>
-        <Input {...register("avs_number", { required: true })}/>
-      </div>
+      <FormField name="avs_number" label="No. AVS" required />
 
       {/* Nom / prénom du conjoint */}
-      <div>
-        <label className="block">Nom / prénom du conjoint</label>
-        <Input {...register("partner_details", { required: true })}/>
-      </div>
+      <FormField name="partner_details" label="Nom / prénom du conjoint" required />
 
       {/* Noms / prénoms du père et de la mère */}
-      <div>
-        <label className="block">Noms / prénoms du père et de la mère</label>
-        <Input {...register("parent_details", { required: true })}/>
-      </div>
+      <FormField name="parent_details" label="Noms / prénoms du père et de la mère" required />
 
       {/* Lieu de naissance & Confession */}
       <div className="grid grid-cols-2 gap-4">
-        <div>
-          <label className="block">Lieu de naissance</label>
-          <Input {...register("birthplace", { required: true })}/>
-        </div>
-        <div>
-          <label className="block">Confession</label>
-          <Input {...register("religion", { required: true })}/>
-        </div>
+        <FormField name="birthplace" label="Lieu de naissance" required />
+        <FormField name="religion" label="Confession" required />
       </div>
 
       {/* Origine & Nationalite */}
@@ -174,12 +137,9 @@ const StepOne: React.FC = () => {
             placeholder="Choisir un pays..."
           />
         </div>
-        <div>
-          <label className="block">Nationalité</label>
-          <Input {...register("nationality", { required: true })}/>
-        </div>
+        <FormField name="nationality" label="Nationalité" required />
       </div>
-      
+
       {/* Mode de vie */}
       <div className="grid grid-cols-2 gap-4">
         <div>
@@ -187,7 +147,7 @@ const StepOne: React.FC = () => {
           <div className="mt-2 space-y-2">
             {options_relationship_status.map((label, idx) => (
               <div key={idx}>
-                <input type="radio" value={label} {...register("relationship_status")} className="mr-2" />
+                <input type="radio" value={label} {...register("relationship_status", {required: true})} className="mr-2" />
                 <span>{label}</span>
               </div>
             ))}
@@ -196,22 +156,19 @@ const StepOne: React.FC = () => {
         <div>
           <label className="block">Mode de vie</label>
           <div className="mt-2 space-y-2">
-              {options_lifestyle.map((label, idx) => (
-                <div key={idx} className="flex items-center">
-                  <input type="radio" value={label} {...register("lifestyle")} className="mr-2" />
-                  <span>{label}</span>
-                  {idx == 2 ? <Input className="ms-2" {...register("lifestyle_other")} /> : ""}
-                </div>
-              ))}
-            </div>
+            {options_lifestyle.map((label, idx) => (
+              <div key={idx} className="flex items-center">
+                <input type="radio" value={label} {...register("lifestyle")} className="mr-2" />
+                <span>{label}</span>
+                {idx == 2 ? <Input className="ms-2" {...register("lifestyle_other")} /> : ""}
+              </div>
+            ))}
+          </div>
         </div>
-      </div>    
+      </div>
 
       {/* Ancienne profession */}
-      <div>
-        <label className="block">Ancienne profession</label>
-        <Input {...register("oldjob", { required: true })}/>
-      </div>
+      <FormField name="oldjob" label="Ancienne profession" required />
 
       {/* Provenance & Chambre */}
       <div className="grid grid-cols-2 gap-4">
@@ -220,9 +177,9 @@ const StepOne: React.FC = () => {
           <div className="mt-2 space-y-2">
             {options_provenence.map((label, idx) => (
               <div key={idx} className="flex items-center">
-                <input type="radio" value={label} {...register("urgency")} className="mr-2" />
+                <input type="radio" value={label} {...register("provenance")} className="mr-2" />
                 <span>{label}</span>
-                  {idx == 2 ? <Input className="ms-2" {...register("lifestyle_other")} /> : ""}
+                {idx == 2 ? <Input className="ms-2" {...register("lifestyle_other")} /> : ""}
               </div>
             ))}
           </div>
@@ -230,20 +187,20 @@ const StepOne: React.FC = () => {
         <div>
           <label className="block">Mode de vie</label>
           <div className="mt-2 space-y-2">
-              {options_room.map((option, idx) => (
-                <div key={idx} className="flex items-center">
-                  <input
-                    type="checkbox"
-                    id={`chambre-${idx}`}
-                    value={option}
-                    className="mr-2"
-                  />
-                  <label htmlFor={`chambre-${idx}`}>{option}</label>
-                </div>
-              ))}
-            </div>
+            {options_room.map((option, idx) => (
+              <div key={idx} className="flex items-center">
+                <input
+                  type="checkbox"
+                  id={`chambre-${idx}`}
+                  value={option}
+                  className="mr-2"
+                />
+                <label htmlFor={`chambre-${idx}`}>{option}</label>
+              </div>
+            ))}
+          </div>
         </div>
-      </div>    
+      </div>
     </div>
   )
 }
