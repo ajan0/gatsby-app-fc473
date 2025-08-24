@@ -7,7 +7,7 @@ import { FormField } from "./FormField"
 import { RadioGroupField } from "./RadioGroupField"
 
 const StepOne: React.FC = () => {
-  const { register, formState: { errors } } = useFormContext()
+  const { register } = useFormContext()
   const [value, setValue] = useState(null)
 
   // useMemo so the list isn't rebuilt on every render

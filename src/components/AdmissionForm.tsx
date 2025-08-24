@@ -34,18 +34,19 @@ const AdmissionForm: React.FC = () => {
     const onSubmit = async (data: any) => {
         const formData = new FormData();
 
-        // Append all text fields
+        // Append all non-file fields
         Object.keys(data).forEach((key) => {
-            if (key !== "doc_family_book") {
+            if (!key.startsWith("doc_")) {
                 formData.append(key, data[key] ?? "");
             }
         });
 
-        // Append file field(s)
-        if (data.doc_family_book) {
-            formData.append("doc_family_book", data.doc_family_book);
-            console.log('file appended')
-        }
+        // Append all file fields (those starting with "doc_")
+        Object.keys(data).forEach((key) => {
+            if (key.startsWith("doc_") && data[key]) {
+                formData.append(key, data[key]);
+            }
+        });
 
         try {
             const res = await fetch(`${process.env.GATSBY_API_URL}/admissions`, {
@@ -93,11 +94,11 @@ const AdmissionForm: React.FC = () => {
                 {steps.map((label, index) => (
                     <div
                         key={index}
-                        className={`flex-1 text-center ${index === currentStep ? "font-bold text-blue-600" : "text-gray-500"
+                        className={`flex-1 text-center ${index === currentStep ? "font-bold text-blue-400" : "text-gray-500"
                             }`}
                     >
                         <div
-                            className={`mx-auto w-8 h-8 rounded-full flex items-center justify-center mb-2 ${index === currentStep ? "bg-blue-600 text-white" : "bg-gray-300"
+                            className={`mx-auto w-8 h-8 rounded-full flex items-center justify-center mb-2 ${index === currentStep ? "bg-blue-400 text-white" : "bg-gray-300"
                                 }`}
                         >
                             {index + 1}
