@@ -43,7 +43,7 @@ export const FileField: React.FC<Props> = ({
     return (
         <div className="space-y-2">
             <label className="block font-medium">
-                {label} {required && <span className="text-red-600">*</span>}
+                {label} {required && <span className="text-red-800">*</span>}
             </label>
 
             <input
@@ -65,7 +65,7 @@ export const FileField: React.FC<Props> = ({
                 )}
             </div>
 
-            {error && <p className="text-sm text-red-600">{String(error.message)}</p>}
+            {error && <p className="text-sm text-red-800">{String(error.message)}</p>}
         </div>
     )
 }

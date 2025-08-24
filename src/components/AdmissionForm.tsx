@@ -10,11 +10,15 @@ const steps = ["VOS DONNÉES", "REPRÉSENTANT", "DÉTAILS ADDITIONNELS", "DOCUME
 
 const AdmissionForm: React.FC = () => {
     const methods = useForm({
-        mode: "onBlur",  // validate only after leaving the input
-        reValidateMode: "onChange" // revalidate after changes
+        mode: "onBlur",
+        reValidateMode: "onChange",
     })
+
+    const {
+        formState: { isSubmitting },
+    } = methods
+
     const [currentStep, setCurrentStep] = useState(0)
-    const [submitting, setSubmitting] = useState(false)
     const [success, setSuccess] = useState<string | null>(null)
     const [error, setError] = useState<string | null>(null)
 
@@ -28,19 +32,25 @@ const AdmissionForm: React.FC = () => {
     const prevStep = () => setCurrentStep((prev) => Math.max(prev - 1, 0))
 
     const onSubmit = async (data: any) => {
-        console.log("Final Submission", data)
-        // TODO: Send to Laravel API
+        const formData = new FormData();
 
-        setSubmitting(true)
+        // Append all text fields
+        Object.keys(data).forEach((key) => {
+            if (key !== "doc_family_book") {
+                formData.append(key, data[key] ?? "");
+            }
+        });
+
+        // Append file field(s)
+        if (data.doc_family_book) {
+            formData.append("doc_family_book", data.doc_family_book);
+            console.log('file appended')
+        }
 
         try {
             const res = await fetch(`${process.env.GATSBY_API_URL}/admissions`, {
                 method: "POST",
-                headers: {
-                    "Accept": "application/json",
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify(data),
+                body: formData,
             })
 
             if (!res.ok) {
@@ -54,13 +64,11 @@ const AdmissionForm: React.FC = () => {
             }
 
             setSuccess("Votre demande a été envoyée avec succès.")
-            methods.reset()
-            setCurrentStep(0)
+            // methods.reset()
+            // setCurrentStep(0)
             window.scrollTo({ top: 0, behavior: "smooth" })
         } catch (e: any) {
             setError(e?.message || "Échec de l’envoi. Veuillez réessayer.")
-        } finally {
-            setSubmitting(false)
         }
     }
 
@@ -69,12 +77,12 @@ const AdmissionForm: React.FC = () => {
             {/* Alerts */}
             {success && (
                 <div className="mb-6 rounded border border-green-300 bg-green-50 p-3 text-green-800">
-                {success}
+                    {success}
                 </div>
             )}
             {error && (
                 <div className="mb-6 rounded border border-red-300 bg-red-50 p-3 text-red-800">
-                {error}
+                    {error}
                 </div>
             )}
 
@@ -109,12 +117,12 @@ const AdmissionForm: React.FC = () => {
                     {/* Navigation */}
                     <div className="mt-6 flex justify-between">
                         {currentStep > 0 && (
-                            <Button type="button" onClick={prevStep}>Retourner</Button>
+                            <Button type="button" variant="outline" onClick={prevStep}>Retourner</Button>
                         )}
                         {currentStep < steps.length - 1 ? (
                             <Button type="button" onClick={nextStep} className="ml-auto">Suivant</Button>
                         ) : (
-                            <Button type="submit" className="ml-auto">Envoyer</Button>
+                            <Button type="submit" className="ml-auto" disabled={isSubmitting}>{isSubmitting ? 'En cours...' : 'Envoyer'}</Button>
                         )}
                     </div>
                 </form>

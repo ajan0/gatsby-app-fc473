@@ -22,8 +22,8 @@ export const RadioGroupField: React.FC<Props> = ({ name, label, options, require
                 {label} {required && <span className="text-sm text-red-800">(obligatoire)</span>}
             </label>
             <div className="mt-2 space-y-2">
-                {options.map((opt, i) => (
-                    <div className="flex ">
+                {options.map((opt, idx) => (
+                    <div key={`${opt}-${idx}`} className="flex ">
                         <input
                             id={`${field.name}-${opt}`}
                             type="radio"
@@ -34,7 +34,7 @@ export const RadioGroupField: React.FC<Props> = ({ name, label, options, require
                             name={field.name}
                             className="mr-2"
                         />
-                        <label key={i} htmlFor={`${field.name}-${opt}`} className="flex items-center">{opt}</label>
+                        <label key={idx} htmlFor={`${field.name}-${opt}`} className="flex items-center">{opt}</label>
                     </div>
                 ))}
             </div>

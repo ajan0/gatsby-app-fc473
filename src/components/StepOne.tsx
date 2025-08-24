@@ -146,7 +146,7 @@ const StepOne: React.FC = () => {
           <label className="block">Etat civil </label>
           <div className="mt-2 space-y-2">
             {options_relationship_status.map((label, idx) => (
-              <div key={idx}>
+              <div key={`${label}-${idx}`}>
                 <input type="radio" value={label} {...register("relationship_status", {required: true})} className="mr-2" />
                 <span>{label}</span>
               </div>
@@ -157,7 +157,7 @@ const StepOne: React.FC = () => {
           <label className="block">Mode de vie</label>
           <div className="mt-2 space-y-2">
             {options_lifestyle.map((label, idx) => (
-              <div key={idx} className="flex items-center">
+              <div key={`${label}-${idx}`} className="flex items-center">
                 <input type="radio" value={label} {...register("lifestyle")} className="mr-2" />
                 <span>{label}</span>
                 {idx == 2 ? <Input className="ms-2" {...register("lifestyle_other")} /> : ""}
@@ -176,7 +176,7 @@ const StepOne: React.FC = () => {
           <label className="block">Provenance</label>
           <div className="mt-2 space-y-2">
             {options_provenence.map((label, idx) => (
-              <div key={idx} className="flex items-center">
+              <div key={`${label}-${idx}`} className="flex items-center">
                 <input type="radio" value={label} {...register("provenance")} className="mr-2" />
                 <span>{label}</span>
                 {idx == 2 ? <Input className="ms-2" {...register("lifestyle_other")} /> : ""}
@@ -188,7 +188,7 @@ const StepOne: React.FC = () => {
           <label className="block">Mode de vie</label>
           <div className="mt-2 space-y-2">
             {options_room.map((option, idx) => (
-              <div key={idx} className="flex items-center">
+              <div key={`${option}-${idx}`} className="flex items-center">
                 <input
                   type="checkbox"
                   id={`chambre-${idx}`}
