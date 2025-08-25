@@ -1,6 +1,7 @@
 import React from "react"
 import { useFormContext, useController } from "react-hook-form"
 import { Textarea } from "./ui/textarea"
+import { useTranslation } from "react-i18next"
 
 interface TextareaFieldProps {
     name: string
@@ -9,6 +10,7 @@ interface TextareaFieldProps {
 }
 
 export const TextareaField: React.FC<TextareaFieldProps> = ({ name, label, required }) => {
+    const { t } = useTranslation()
     const { control } = useFormContext()
 
     const {
@@ -23,7 +25,7 @@ export const TextareaField: React.FC<TextareaFieldProps> = ({ name, label, requi
     return (
         <div>
             <label className="block font-medium">
-                {label} {required && <span className="text-sm text-red-800">(obligatoire)</span>}
+                {label} {required && <span className="text-sm text-red-800">{t('(obligatoire)')}</span>}
             </label>
             <Textarea {...field} />
             {error && <p className="text-red-800 text-sm">{String(error.message)}</p>}

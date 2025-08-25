@@ -3,6 +3,17 @@ import type { PageProps, HeadFC } from "gatsby"
 import Header from "../components/Header"
 import Footer from "../components/Footer"
 import AdmissionForm from "../components/AdmissionForm"
+import { graphql } from "gatsby";
+
+export const query = graphql`
+  query ($language: String!) {
+    locales: allLocale(filter: { language: { eq: $language } }) {
+      edges {
+        node { ns data language }
+      }
+    }
+  }
+`;
 
 const AdmissionPage: React.FC<PageProps> = () => {
   return (

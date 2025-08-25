@@ -1,29 +1,34 @@
 import type { GatsbyConfig } from "gatsby";
-import * as dotenv from "dotenv"
-
-if (process.env.NODE_ENV === "development") {
-  dotenv.config({
-    path: `.env.development`,
-  })
-}
 
 const config: GatsbyConfig = {
   siteMetadata: {
     title: `Résidence des Oliviers`,
-    siteUrl: process.env.GATSBY_SITE_URL || "http://localhost:8000"
+    siteUrl: process.env.GATSBY_SITE_URL || "http://localhost:8001",
   },
-  // More easily incorporate content into your pages through automatic TypeScript type generation and better GraphQL IntelliSense.
-  // If you use VSCode you can also use the GraphQL plugin
-  // Learn more at: https://gatsby.dev/graphql-typegen
-  graphqlTypegen: true,
-  plugins: ["gatsby-plugin-postcss", {
-    resolve: `gatsby-plugin-i18n`,
-    options: {
-      langKeyDefault: "fr",        // default language
-      useLangKeyLayout: false,     // you can create per-lang layouts if true
-      prefixDefault: false,        // URLs won't be prefixed with /fr
+  plugins: [
+    "gatsby-plugin-postcss",
+    {
+      resolve: `gatsby-source-filesystem`,
+      options: {
+        path: `${__dirname}/src/locales`, 
+        name: `locale`,
+      },
     },
-  },]
+    {
+      resolve: `gatsby-plugin-react-i18next`,
+      options: {
+        localeJsonSourceName: `locale`, // <-- must match the "name" above
+        languages: ["fr", "en", "de"],
+        defaultLanguage: "fr",
+        siteUrl: process.env.GATSBY_SITE_URL || "http://localhost:8001",
+        i18nextOptions: {
+          fallbackLng: "fr",
+          interpolation: { escapeValue: false },
+          keySeparator: ".", // you use keys like "nav.home"
+        },
+      },
+    },
+  ],
 };
 
 export default config;

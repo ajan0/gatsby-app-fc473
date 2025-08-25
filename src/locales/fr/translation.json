@@ -1,0 +1,28 @@
+{
+  "nav": {
+    "home": "Accueil",
+    "about": "À propos",
+    "training": "Formation",
+    "admission": "Admission",
+    "contact": "Contact"
+  },
+  "home": {
+    "about": {
+      "title": "Qui sommes-nous ?",
+      "content": "La Résidence des Oliviers est un établissement médico-social dédié à l’accompagnement des personnes âgées. Notre mission est d’offrir un cadre de vie sécurisé, confortable et humain, où chaque résident est accueilli avec respect et dignité. Nous allions des soins de qualité à une approche personnalisée, attentive aux besoins physiques, psychologiques et sociaux de chacun."
+    },
+    "training": {
+      "title": "Formation",
+      "content": "La Résidence des Oliviers encourage et soutient la formation continue comme le perfectionnement de ses collaborateurs. La diversité des professions et des générations qui se côtoient dans notre établissement pousse au programme de formation continue."
+    }
+  },
+  "cta": {
+    "kicker": "Un nouveau chapitre commence",
+    "titleLine1": "Admission à la",
+    "titleLine2": "Résidence des Oliviers",
+    "button": "Commencer"
+  },
+  "hero": {
+    "title": "UN LIEU DE VIE,<br />DE SOINS ET<br />DE SÉRÉNITÉ"
+  }
+}

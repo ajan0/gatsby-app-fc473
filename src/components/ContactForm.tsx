@@ -1,13 +1,12 @@
 import React, { useState } from "react"
 import { useForm, FormProvider } from "react-hook-form"
-import { Label } from "./ui/label"
-import { Input } from "./ui/input"
-import { Textarea } from "./ui/textarea"
 import { FormField } from "./FormField"
 import { TextareaField } from "./TextareaField"
 import { Button } from "./ui/button"
+import { useTranslation } from "react-i18next" 
 
 const ContactForm: React.FC = () => {
+  const { t } = useTranslation()
     const methods = useForm({
         mode: "onBlur",
         reValidateMode: "onChange",
@@ -65,9 +64,9 @@ const ContactForm: React.FC = () => {
 
             <FormProvider {...methods}>
                 <form onSubmit={methods.handleSubmit(onSubmit)} className="space-y-3">
-                    <FormField name="email" label="E-mail" type="email" required />
+                    <FormField name="email" label={t('E-mail')} type="email" required />
                     <TextareaField name="message" label="Message" required />
-                    <Button type="submit" disabled={isSubmitting}>{isSubmitting ? 'En cours...' : 'Envoyer'}</Button>
+                    <Button type="submit" disabled={isSubmitting}>{isSubmitting ? t('En cours...') : t('Envoyer')}</Button>
                 </form>
             </FormProvider>
         </div>

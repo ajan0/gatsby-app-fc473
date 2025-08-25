@@ -1,7 +1,33 @@
 {
-  "Accueil": "Home",
-  "À propos": "About",
-  "Formation": "Training",
-  "Admission": "Admission",
-  "Contact": "Contact"
+  "nav": {
+    "home": "Home",
+    "about": "About",
+    "training": "Training",
+    "admission": "Admission",
+    "contact": "Contact"
+  },
+  "home": {
+    "about": {
+      "title": "About us",
+      "content": "Résidence Des Oliviers is a Medical-Social Establishment Dedicated to Supporting the Elderly. Our Mission is to Provide a Safe, Comfortable, and Humane Living Environment, where each Resident is Welcomed with Respect and Dignity. We Combine Quality Care with a Personalized Approach, Attentive to the Physical, Psychological, and Social Needs of each Individual."
+    },
+    "training": {
+      "title": "Training",
+      "content": "Résidence Des Oliviers Encourages and Supports Continuous Training and the Professional Development of its Staff. The Diversity of Professions and Generations within our Facility Drives the Continuous Training Program."
+    }
+  },
+  "hero": {
+    "title": "A Place for Living,<br />Care and<br />Serenity"
+  },
+  "cta": {
+    "kicker": "A new chapter begins",
+    "titleLine1": "Admission to",
+    "titleLine2": "Résidence des Oliviers",
+    "button": "GET STARTED"
+  },
+
+  "E-mail": "Email",
+  "Envoyer": "Send",
+  "En cours...": "Sending...",
+  "(obligatoire)": "(required)"
 }
